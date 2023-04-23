@@ -4,7 +4,7 @@ import (
 	"2.2.H/domain/game/base"
 )
 
-func FinxMaxCardIdx(cards []base.ICard) (idx int) {
+func FindMaxCardIdx(cards []base.ICard) (idx int) {
 	if len(cards) == 0 {
 		return -1
 	}

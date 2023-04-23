@@ -22,7 +22,7 @@ func (gameCore *GameCore) PlayGame(game *base.Game) {
 			showdownList = append(showdownList, player.TakeTurn())
 		}
 
-		if player, ok := game.Players[FinxMaxCardIdx(showdownList)].(*base.BasePlayer).
+		if player, ok := game.Players[FindMaxCardIdx(showdownList)].(*base.BasePlayer).
 			PlayerCore.(interface{ AddPoint() }); ok {
 			player.AddPoint()
 		}
