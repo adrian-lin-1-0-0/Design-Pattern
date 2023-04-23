@@ -21,13 +21,11 @@ func (gameCore *GameCore) PlayGame(game *base.Game) {
 			}
 			showdownList = append(showdownList, player.TakeTurn())
 		}
-		idx := FinxMaxCardIdx(showdownList)
 
-		if player, ok := game.Players[idx].(*base.BasePlayer).
+		if player, ok := game.Players[FinxMaxCardIdx(showdownList)].(*base.BasePlayer).
 			PlayerCore.(interface{ AddPoint() }); ok {
 			player.AddPoint()
 		}
-
 	}
 
 EndGame:
@@ -37,22 +35,27 @@ EndGame:
 }
 
 func (gameCore *GameCore) GetWinner(game *base.Game) base.IPlayer {
-	var winner base.IPlayer
-	for _, IPlayer := range game.Players {
-		if winner == nil {
-			winner = IPlayer
-		}
 
-		if player, ok := IPlayer.(*base.BasePlayer).PlayerCore.(interface{ GetPoint() int }); ok {
-			if winnerCore := winner.(*base.BasePlayer).PlayerCore.(interface{ GetPoint() int }); ok {
-				if player.GetPoint() > winnerCore.GetPoint() {
-					winner = IPlayer
-				}
-			}
-		}
-
+	playerCore, ok := game.Players[0].(*base.BasePlayer).PlayerCore.(interface{ GetPoint() int })
+	if !ok {
+		return nil
 	}
-	return winner
+
+	return findWinner(game.Players[1:], game.Players[0], playerCore)
+}
+
+func findWinner(player []base.IPlayer, winner base.IPlayer, winnerCore interface{ GetPoint() int }) base.IPlayer {
+	if len(player) == 0 {
+		return winner
+	}
+
+	if playerCore, ok := player[0].(*base.BasePlayer).PlayerCore.(interface{ GetPoint() int }); ok {
+		if playerCore.GetPoint() > winnerCore.GetPoint() {
+			winner, winnerCore = player[0], playerCore
+		}
+	}
+
+	return findWinner(player[1:], winner, winnerCore)
 }
 
 func (gameCore *GameCore) DrawCard(game *base.Game) {
