@@ -5,11 +5,6 @@ import (
 )
 
 type GameCore struct {
-	over bool
-}
-
-func (gameCore *GameCore) IsOver(game *base.Game) bool {
-	return gameCore.over
 }
 
 func (gameCore *GameCore) Init(game *base.Game) {
@@ -18,7 +13,7 @@ func (gameCore *GameCore) Init(game *base.Game) {
 
 func (gameCore *GameCore) PlayGame(game *base.Game) {
 
-	for !gameCore.IsOver(game) {
+	for !game.Over {
 		showdownList := make([]base.ICard, 0)
 		for _, player := range game.Players {
 			if player.ShowHand().Len() == 0 {
@@ -36,7 +31,8 @@ func (gameCore *GameCore) PlayGame(game *base.Game) {
 	}
 
 EndGame:
-	gameCore.EndGame(game)
+	game.Over = true
+	game.Winner = gameCore.GetWinner(game)
 
 }
 
@@ -57,11 +53,6 @@ func (gameCore *GameCore) GetWinner(game *base.Game) base.IPlayer {
 
 	}
 	return winner
-}
-
-func (gameCore *GameCore) EndGame(game *base.Game) {
-	gameCore.over = true
-
 }
 
 func (gameCore *GameCore) DrawCard(game *base.Game) {

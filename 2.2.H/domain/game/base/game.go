@@ -10,11 +10,10 @@ type (
 		Init(*Game)
 		PlayGame(*Game)
 		DrawCard(*Game)
-		IsOver(*Game) bool
-		GetWinner(*Game) IPlayer
 	}
 
 	Game struct {
+		Over     bool
 		GameCore IGameCore
 		Deck     IDeck
 		Players  []IPlayer
@@ -34,12 +33,6 @@ func (game *Game) Start() {
 	game.NamePlayers()
 	game.DrawCard()
 	game.PlayGame()
-	game.SetWinner()
-}
-
-func (game *Game) SetWinner() {
-	game.Winner = game.GameCore.GetWinner(game)
-
 }
 
 func (game *Game) Init() {
