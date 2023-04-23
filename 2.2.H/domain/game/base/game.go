@@ -29,7 +29,6 @@ type (
 )
 
 func (game *Game) Start() {
-	rand.Seed(time.Now().UnixNano())
 	game.Init()
 	game.Deck.Shuffle()
 	game.NamePlayers()
@@ -44,6 +43,7 @@ func (game *Game) SetWinner() {
 }
 
 func (game *Game) Init() {
+	rand.Seed(time.Now().UnixNano())
 	game.GameCore.Init(game)
 }
 
