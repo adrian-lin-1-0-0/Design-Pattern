@@ -30,11 +30,11 @@ func (gameCore *GameCore) PlayGame(game *base.Game) {
 
 EndGame:
 	game.Over = true
-	game.Winner = gameCore.GetWinner(game)
+	game.Winner = gameCore.getWinner(game)
 
 }
 
-func (gameCore *GameCore) GetWinner(game *base.Game) base.IPlayer {
+func (gameCore *GameCore) getWinner(game *base.Game) base.IPlayer {
 
 	playerCore, ok := game.Players[0].(*base.BasePlayer).PlayerCore.(interface{ GetPoint() int })
 	if !ok {
@@ -63,8 +63,7 @@ func (gameCore *GameCore) DrawCard(game *base.Game) {
 		if game.Deck.Len() == 0 {
 			return
 		}
-		card := game.Deck.Draw()
-		player.AddCard(card)
+		player.AddCard(game.Deck.Draw())
 	}
 	gameCore.DrawCard(game)
 }

@@ -15,7 +15,7 @@ func FindMaxCardIdx(cards []base.ICard) (idx int) {
 	for i := 1; i < len(cards); i++ {
 		if base.LT == maxCard.Compare(cards[i]) {
 			maxIdx = idx
-			maxCard, _ = cards[i].(*base.BaseCard)
+			maxCard, _ = cards[i].(*PokerCard)
 		}
 	}
 

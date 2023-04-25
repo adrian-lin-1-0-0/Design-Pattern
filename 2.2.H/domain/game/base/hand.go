@@ -5,10 +5,15 @@ type (
 		AddCard(ICard)
 		PlayCard(int) ICard
 		Len() int
+		ToSlice() []ICard
 	}
 
 	BaseHand []ICard
 )
+
+func (hand *BaseHand) ToSlice() []ICard {
+	return *hand
+}
 
 func (hand *BaseHand) AddCard(card ICard) {
 	*hand = append(*hand, card)
