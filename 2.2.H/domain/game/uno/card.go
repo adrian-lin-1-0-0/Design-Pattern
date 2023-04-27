@@ -1,6 +1,8 @@
 package uno
 
-import "2.2.H/domain/game/base"
+import (
+	"2.2.H/domain/game/base"
+)
 
 type UnoCard struct {
 	Number base.CardDenomination
