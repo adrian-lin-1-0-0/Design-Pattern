@@ -49,15 +49,16 @@ func (collisionHandler *CollisionHandlerTemplate) Collision(sprite1 ISprite, spr
 
 // Hero collides Fire or Fire collides Hero
 func HeroFireCollision(sprite1 ISprite, sprite2 ISprite) (ISprite, ISprite) {
+	var hero ISprite
+	var fire ISprite
 	if sprite1.GetType() == FIRE {
-		sprite1.MarkedForDeletion()
-		heroGainHP(sprite2, -10)
+		hero, fire = sprite2, sprite1
+	} else {
+		hero, fire = sprite1, sprite2
 	}
 
-	if sprite2.GetType() == FIRE {
-		sprite2.MarkedForDeletion()
-		heroGainHP(sprite1, -10)
-	}
+	fire.MarkedForDeletion()
+	heroGainHP(hero, -10)
 
 	return sprite2, sprite1
 }
@@ -85,15 +86,16 @@ func NewWaterFireCollisionHandler() *CollisionHandlerTemplate {
 
 // Hero collides Water or Water collides Hero
 func HeroWaterCollision(sprite1 ISprite, sprite2 ISprite) (ISprite, ISprite) {
+	var hero ISprite
+	var water ISprite
 	if sprite1.GetType() == WATER {
-		sprite1.MarkedForDeletion()
-		heroGainHP(sprite2, 10)
+		hero, water = sprite2, sprite1
+	} else {
+		hero, water = sprite1, sprite2
 	}
 
-	if sprite2.GetType() == WATER {
-		sprite2.MarkedForDeletion()
-		heroGainHP(sprite1, 10)
-	}
+	water.MarkedForDeletion()
+	heroGainHP(hero, 10)
 
 	return sprite2, sprite1
 }
