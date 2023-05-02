@@ -12,11 +12,11 @@ type ChannelOptions struct {
 	Name string
 }
 
-func (channel *Channel) BeSubscribe(subscriber *ChannelSubscriber) {
+func (channel *Channel) BeSubscribed(subscriber *ChannelSubscriber) {
 	channel.subscribers[subscriber.ID] = subscriber
 }
 
-func (channel *Channel) BeUnSubscribe(subscriber *ChannelSubscriber) {
+func (channel *Channel) BeUnSubscribed(subscriber *ChannelSubscriber) {
 	delete(channel.subscribers, subscriber.ID)
 }
 

@@ -26,12 +26,12 @@ func (subscriber *ChannelSubscriber) Likes(video Video) {
 }
 
 func (subscriber *ChannelSubscriber) Subscribe(channel *Channel) {
-	channel.BeSubscribe(subscriber)
+	channel.BeSubscribed(subscriber)
 	fmt.Println(subscriber.Name, "訂閱了", channel.Name)
 }
 
 func (subscriber *ChannelSubscriber) UnSubscribe(channel *Channel) {
-	channel.BeUnSubscribe(subscriber)
+	channel.BeUnSubscribed(subscriber)
 	fmt.Println(subscriber.Name, "解除訂閱了", channel.Name)
 }
 
