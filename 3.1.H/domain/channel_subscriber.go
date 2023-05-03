@@ -60,5 +60,24 @@ func NewChannelSubscirber(options *ChannelSubscriberOptions) *ChannelSubscriber 
 		Name:               options.Name,
 		updateEventHandler: func(video Video) {},
 	}
+}
 
+func VideosLongerThan(seconds int) func(Video) bool {
+	return func(video Video) bool {
+		return video.Seconds >= seconds
+	}
+}
+
+func VideosShorterThan(seconds int) func(Video) bool {
+	return func(video Video) bool {
+		return video.Seconds < seconds
+	}
+}
+
+func UnSubscribeChannel(subscriber *ChannelSubscriber, video Video) {
+	subscriber.UnSubscribe(video.Uploader)
+}
+
+func LikeVideo(subscriber *ChannelSubscriber, video Video) {
+	subscriber.Likes(video)
 }

@@ -11,7 +11,7 @@ type Video struct {
 type VideoOptions struct {
 	Title       string
 	Description string
-	Seconds     int
+	Length      int
 }
 
 func NewVideo(options *VideoOptions) *Video {
@@ -19,6 +19,10 @@ func NewVideo(options *VideoOptions) *Video {
 		ID:          GenerateUUID(),
 		Title:       options.Title,
 		Description: options.Description,
-		Seconds:     options.Seconds,
+		Seconds:     options.Length,
 	}
 }
+
+const Seconds = 1
+const Minutes = 60 * Seconds
+const Hours = 60 * Minutes
