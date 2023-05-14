@@ -16,7 +16,7 @@ type PlayerOptions struct {
 }
 
 func (p *Player) Play() {
-	p.core.Play(p)[]int
+	p.core.Play(p)
 }
 
 func (p *Player) Pass() {
