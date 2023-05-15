@@ -1,7 +1,7 @@
 package big2
 
 type Round interface {
-	Play()
+	Run()
 }
 
 type firstRound struct {
@@ -14,7 +14,7 @@ type FirstRoundOptions struct {
 	Deck    *Deck
 }
 
-func (r *firstRound) Play() {
+func (r *firstRound) Run() {
 	for _, p := range r.players {
 		p.NamePlayer()
 	}
@@ -38,6 +38,36 @@ type playRound struct {
 	table   *Table
 }
 
-func (r *playRound) Play() {
-	// TODO
+func (r *playRound) Run() {
+	for {
+		for _, p := range r.players {
+			for {
+				p.Begin()
+				topPlay := p.Play()
+				if topPlay == nil {
+					//pass
+					goto Commit
+				}
+
+				if IslegitimatePlay(topPlay) {
+					r.table.TopPlay = topPlay
+					r.table.TopPlayer = p
+					goto Commit
+				}
+				p.Rollback()
+				//TODO
+				//此牌型不合法，請再嘗試一次。
+				continue
+			Commit:
+				p.Commit()
+				break
+
+			}
+
+		}
+	}
+}
+
+func IslegitimatePlay(play []Card) bool {
+	return true
 }

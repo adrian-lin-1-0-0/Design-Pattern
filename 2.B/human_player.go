@@ -4,6 +4,8 @@ import (
 	"fmt"
 	"io"
 	"os"
+
+	"big2/notify/message"
 )
 
 type HumanPlayer struct {
@@ -22,7 +24,7 @@ func (hp *HumanPlayer) NamePlayer(p *Player) {
 }
 
 func (hp *HumanPlayer) Play(p *Player) []int {
-	fmt.Fprintf(hp.writer, "輪到%s了\n", p.Name)
+	fmt.Fprintf(hp.writer, message.YourTurn, p.Name)
 	// TODO
 	return []int{-1}
 }

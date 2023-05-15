@@ -16,8 +16,21 @@ type PlayerOptions struct {
 }
 
 func (p *Player) Play() []Card {
-	p.core.Play(p)
-	return []Card{}
+	play := p.core.Play(p)
+	if len(play) == 1 && play[0] == -1 {
+		return nil
+	}
+
+	playCards := []Card{}
+	handCards := p.handCards.GetCards()
+	for _, handIdx := range play {
+		playCards = append(playCards, handCards[handIdx])
+	}
+
+	//TODO
+	//remove play cards from hand cards
+
+	return playCards
 }
 
 func (p *Player) Pass() {
@@ -32,15 +45,15 @@ func (p *Player) DealtHandCards(c Card) {
 	p.handCards.AddCard(c)
 }
 
-func (p *Player) BeginHand() {
+func (p *Player) Begin() {
 	p.handCards.Begin()
 }
 
-func (p *Player) CommitHand() {
+func (p *Player) Commit() {
 	p.handCards.Commit()
 }
 
-func (p *Player) RollbackHand() {
+func (p *Player) Rollback() {
 	p.handCards.Rollback()
 }
 

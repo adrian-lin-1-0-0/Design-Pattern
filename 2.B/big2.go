@@ -30,8 +30,8 @@ func (b *BigTwo) AddRound(r Round) {
 	b.rounds = append(b.rounds, r)
 }
 
-func (b *BigTwo) Play() {
+func (b *BigTwo) Run() {
 	for _, r := range b.rounds {
-		r.Play()
+		r.Run()
 	}
 }
