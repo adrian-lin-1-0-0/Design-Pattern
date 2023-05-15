@@ -7,7 +7,7 @@ type PlayerCore interface {
 
 type Player struct {
 	Name      string
-	handCards []Card
+	handCards HandCards
 	core      PlayerCore
 }
 
@@ -15,8 +15,9 @@ type PlayerOptions struct {
 	Core PlayerCore
 }
 
-func (p *Player) Play() {
+func (p *Player) Play() []Card {
 	p.core.Play(p)
+	return []Card{}
 }
 
 func (p *Player) Pass() {
@@ -28,7 +29,7 @@ func (p *Player) NamePlayer() {
 }
 
 func (p *Player) DealtHandCards(c Card) {
-	p.handCards = append(p.handCards, c)
+	p.handCards.AddCard(c)
 }
 
 func NewPlayer(opts *PlayerOptions) *Player {
