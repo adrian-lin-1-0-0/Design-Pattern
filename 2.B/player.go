@@ -32,6 +32,18 @@ func (p *Player) DealtHandCards(c Card) {
 	p.handCards.AddCard(c)
 }
 
+func (p *Player) BeginHand() {
+	p.handCards.Begin()
+}
+
+func (p *Player) CommitHand() {
+	p.handCards.Commit()
+}
+
+func (p *Player) RollbackHand() {
+	p.handCards.Rollback()
+}
+
 func NewPlayer(opts *PlayerOptions) *Player {
 	return &Player{core: opts.Core}
 }
