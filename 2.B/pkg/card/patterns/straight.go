@@ -9,6 +9,10 @@ type StraightPattern struct {
 	cards []card.Card
 }
 
+func NewStraightPattern() *StraightPattern {
+	return &StraightPattern{}
+}
+
 var (
 	matchStraight = [...]string{
 		"345678910JQKA2",
@@ -35,10 +39,24 @@ func cardToPatternStr(cards []card.Card) string {
 	return patternStr
 }
 
+func (s *StraightPattern) GetCards() []card.Card {
+	return s.cards
+}
+
 func (s *StraightPattern) GreaterThan(p CardPattern) bool {
 	return s.cards[4].Rank > p.GetCards()[4].Rank
 }
 
 func (s *StraightPattern) Match(cards []card.Card) bool {
 	return (len(cards) == 5) && MatchStraight(cardToPatternStr(cards))
+}
+
+func (s *StraightPattern) GetName() string {
+	return "Straight"
+}
+
+func (s *StraightPattern) New(cards []card.Card) CardPattern {
+	return &StraightPattern{
+		cards: cards,
+	}
 }

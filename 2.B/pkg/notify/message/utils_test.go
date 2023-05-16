@@ -1,12 +1,11 @@
-package big2
+package message
 
 import (
 	"big2/pkg/card"
 	"testing"
 )
 
-func TestCardsToString(t *testing.T) {
-
+func TestCardsWithIdxToString(t *testing.T) {
 	//345678910JQKA2
 	cards := []card.Card{
 		{Rank: card.Three, Suit: card.Spades},
@@ -24,7 +23,7 @@ func TestCardsToString(t *testing.T) {
 		{Rank: card.Two, Suit: card.Spades},
 	}
 
-	got := CardsToString(cards)
+	got := CardsWithIdxToString(cards)
 	want := "0    1    2    3    4    5    6    7     8    9    10   11   12   \nS[3] S[4] S[5] S[6] S[7] S[8] S[9] S[10] S[J] S[Q] S[K] S[A] S[2] "
 
 	if got != want {

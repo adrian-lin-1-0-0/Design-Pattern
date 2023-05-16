@@ -13,7 +13,8 @@ func NewSinglePattern() *SinglePattern {
 }
 
 func (s *SinglePattern) GreaterThan(p CardPattern) bool {
-	return s.cards[0].Rank > p.GetCards()[0].Rank
+
+	return s.cards[0].GreaterThan(&p.GetCards()[0])
 }
 
 func (s *SinglePattern) GetCards() []card.Card {

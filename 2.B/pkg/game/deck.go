@@ -1,4 +1,4 @@
-package big2
+package game
 
 import (
 	"big2/pkg/card"

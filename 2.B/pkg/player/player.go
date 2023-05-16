@@ -5,6 +5,7 @@ import (
 	"big2/pkg/notify/message"
 	"fmt"
 	"io"
+	"os"
 )
 
 type PlayerCore interface {
@@ -24,6 +25,23 @@ type PlayerOptions struct {
 	Core   PlayerCore
 	Reader io.Reader
 	Writer io.Writer
+}
+
+func NewPlayer(opts *PlayerOptions) *Player {
+	return &Player{
+		core:      opts.Core,
+		Reader:    opts.Reader,
+		Writer:    opts.Writer,
+		handCards: NewHandCards(),
+	}
+}
+
+func NewDefaultPlayer() *Player {
+	return NewPlayer(&PlayerOptions{
+		Core:   NewHumanPlayer(),
+		Reader: os.Stdin,
+		Writer: os.Stdout,
+	})
 }
 
 func (p *Player) Play() []card.Card {
@@ -61,15 +79,6 @@ func (p *Player) Commit() {
 
 func (p *Player) Rollback() {
 	p.handCards.Rollback()
-}
-
-func NewPlayer(opts *PlayerOptions) *Player {
-	return &Player{
-		core:      opts.Core,
-		Reader:    opts.Reader,
-		Writer:    opts.Writer,
-		handCards: NewHandCards(),
-	}
 }
 
 func (p *Player) HandCards() []card.Card {

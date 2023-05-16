@@ -1,4 +1,4 @@
-package big2
+package game
 
 import (
 	"big2/pkg/card/patterns"
@@ -74,7 +74,7 @@ func (r *playRound) Run() {
 			for {
 				p.Begin()
 				topPlay := p.Play()
-				if topPlay == nil {
+				if topPlay == nil && r.table.TopPlay != nil {
 					if r.table.TopPlayer == p {
 						fmt.Fprint(p.Writer, message.CantPassInNewRound)
 						goto Rollback
@@ -86,6 +86,12 @@ func (r *playRound) Run() {
 				cardPattern, err = r.cardPatternsChain.ToPattern(topPlay)
 				if err != nil {
 					goto IllegalPlay
+				}
+
+				if r.table.TopPlay == nil {
+					r.table.TopPlay = cardPattern
+					r.table.TopPlayer = p
+					goto Commit
 				}
 
 				if cardPattern.GetName() != r.table.TopPlay.GetName() {
@@ -113,5 +119,7 @@ func (r *playRound) Run() {
 				p.Rollback()
 			}
 		}
+		r.table.TopPlay = nil
+
 	}
 }

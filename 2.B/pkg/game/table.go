@@ -1,4 +1,4 @@
-package big2
+package game
 
 import (
 	"big2/pkg/card/patterns"
@@ -8,4 +8,8 @@ import (
 type Table struct {
 	TopPlay   patterns.CardPattern
 	TopPlayer *player.Player
+}
+
+func NewTable() *Table {
+	return &Table{}
 }

@@ -5,14 +5,13 @@ import (
 )
 
 func CardPatternsFactory() *CardPatternsChain {
-	return NewCardPatterns().
-		Add(NewSinglePattern())
+	return NewCardPatterns(NewSinglePattern()).
+		Add(NewStraightPattern())
 
 }
 
-func NewCardPatterns() *CardPatternsChain {
-	c := &CardPatternsChain{}
-	return c
+func NewCardPatterns(pattern CardPattern) *CardPatternsChain {
+	return &CardPatternsChain{Pattern: pattern}
 }
 
 type CardPattern interface {
