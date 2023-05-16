@@ -1,6 +1,11 @@
 package player
 
-import "big2/pkg/card"
+import (
+	"big2/pkg/card"
+	"big2/pkg/notify/message"
+	"fmt"
+	"io"
+)
 
 type PlayerCore interface {
 	NamePlayer(*Player)
@@ -9,34 +14,29 @@ type PlayerCore interface {
 
 type Player struct {
 	Name      string
-	handCards HandCards
+	handCards *HandCards
 	core      PlayerCore
+	Reader    io.Reader
+	Writer    io.Writer
 }
 
 type PlayerOptions struct {
-	Core PlayerCore
+	Core   PlayerCore
+	Reader io.Reader
+	Writer io.Writer
 }
 
 func (p *Player) Play() []card.Card {
+	fmt.Fprintf(p.Writer, message.HandCards, message.CardsToString(p.handCards.GetCards()))
 	play := p.core.Play(p)
 	if len(play) == 1 && play[0] == -1 {
 		return nil
 	}
 
-	playCards := []card.Card{}
-	handCards := p.handCards.GetCards()
-	for _, handIdx := range play {
-		playCards = append(playCards, handCards[handIdx])
-	}
-
-	//TODO
-	//remove play cards from hand cards
+	playCards := getCardsByIdx(p.handCards.GetCards(), play)
+	p.handCards.SetCards(removeCardsByIdx(p.handCards.GetCards(), play))
 
 	return playCards
-}
-
-func (p *Player) Pass() {
-	// TODO
 }
 
 func (p *Player) NamePlayer() {
@@ -45,6 +45,10 @@ func (p *Player) NamePlayer() {
 
 func (p *Player) DealtHandCards(c card.Card) {
 	p.handCards.AddCard(c)
+}
+
+func (p *Player) SortHandCards() {
+	p.handCards.Sort()
 }
 
 func (p *Player) Begin() {
@@ -60,7 +64,12 @@ func (p *Player) Rollback() {
 }
 
 func NewPlayer(opts *PlayerOptions) *Player {
-	return &Player{core: opts.Core}
+	return &Player{
+		core:      opts.Core,
+		Reader:    opts.Reader,
+		Writer:    opts.Writer,
+		handCards: NewHandCards(),
+	}
 }
 
 func (p *Player) HandCards() []card.Card {

@@ -43,6 +43,10 @@ const (
 var suitStrings = []string{"C", "D", "H", "S"}
 var rankStrings = []string{"3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K", "A", "2"}
 
+func (r Rank) String() string {
+	return rankStrings[r]
+}
+
 func (c *Card) compare(other *Card) int {
 
 	switch {

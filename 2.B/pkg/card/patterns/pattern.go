@@ -17,7 +17,7 @@ func NewCardPatterns() *CardPatternsChain {
 
 type CardPattern interface {
 	GreaterThan(p CardPattern) bool
-	Identify(cards []card.Card) bool
+	Match(cards []card.Card) bool
 	New(cards []card.Card) CardPattern
 	GetCards() []card.Card
 	GetName() string
@@ -41,7 +41,7 @@ func (c *CardPatternsChain) Add(pattern CardPattern) *CardPatternsChain {
 }
 
 func (c *CardPatternsChain) ToPattern(cards []card.Card) (CardPattern, error) {
-	if c.Pattern.Identify(cards) {
+	if c.Pattern.Match(cards) {
 		return c.Pattern.New(cards), nil
 	}
 

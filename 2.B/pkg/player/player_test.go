@@ -13,12 +13,9 @@ func TestPlayer_NamePlayer(t *testing.T) {
 	inputName := "Adrian"
 
 	player := NewPlayer(&PlayerOptions{
-		Core: NewHumanPlayer(
-			&HumanPlayerOptions{
-				Reader: &input,
-				Writer: &output,
-			},
-		),
+		Core:   NewHumanPlayer(),
+		Reader: &input,
+		Writer: &output,
 	})
 
 	fmt.Fprintln(&input, inputName)
@@ -30,8 +27,4 @@ func TestPlayer_NamePlayer(t *testing.T) {
 
 	player.Play()
 
-	expectedOutput := fmt.Sprintf("輪到%s了\n", player.Name)
-	if output.String() != expectedOutput {
-		t.Errorf("output = %s; want %s", output.String(), expectedOutput)
-	}
 }

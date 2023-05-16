@@ -1,6 +1,9 @@
 package player
 
-import "big2/pkg/card"
+import (
+	"big2/pkg/card"
+	"sort"
+)
 
 type HandCards struct {
 	data   []card.Card
@@ -74,4 +77,12 @@ func (h *HandCards) getBackup() []card.Card {
 
 func (h *HandCards) clearBackup() {
 	h.setBackup([]card.Card{})
+}
+
+func (h *HandCards) Sort() {
+	cards := h.get()
+	sort.Slice(cards, func(i, j int) bool {
+		return cards[i].LessThan(&cards[j])
+	})
+	h.set(cards)
 }

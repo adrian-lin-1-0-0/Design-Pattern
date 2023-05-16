@@ -20,7 +20,7 @@ func (s *SinglePattern) GetCards() []card.Card {
 	return s.cards
 }
 
-func (s *SinglePattern) Identify(cards []card.Card) bool {
+func (s *SinglePattern) Match(cards []card.Card) bool {
 	return len(cards) == 1
 }
 

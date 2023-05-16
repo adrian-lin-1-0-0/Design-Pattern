@@ -14,7 +14,7 @@ func NewBigTwo(opts *BigTwoOptions) *BigTwo {
 	players := make([]*player.Player, opts.PlayerCount)
 	for i := 0; i < opts.PlayerCount; i++ {
 		players[i] = player.NewPlayer(&player.PlayerOptions{
-			Core: player.NewHumanPlayer(nil),
+			Core: player.NewHumanPlayer(),
 		})
 	}
 

@@ -2,7 +2,9 @@ package big2
 
 import (
 	"big2/pkg/card/patterns"
+	"big2/pkg/notify/message"
 	"big2/pkg/player"
+	"fmt"
 )
 
 type Round interface {
@@ -28,6 +30,10 @@ func (r *firstRound) Run() {
 		for _, p := range r.players {
 			p.DealtHandCards(r.deck.Deal())
 		}
+	}
+
+	for _, p := range r.players {
+		p.SortHandCards()
 	}
 }
 
@@ -64,48 +70,48 @@ func (r *playRound) Run() {
 
 	for {
 		for _, p := range r.players {
+			fmt.Fprintf(p.Writer, message.YourTurn, p.Name)
 			for {
 				p.Begin()
 				topPlay := p.Play()
 				if topPlay == nil {
-					//pass
+					if r.table.TopPlayer == p {
+						fmt.Fprint(p.Writer, message.CantPassInNewRound)
+						goto Rollback
+					}
+					fmt.Fprintf(p.Writer, message.PlayerPass, p.Name)
 					goto Commit
 				}
 
 				cardPattern, err = r.cardPatternsChain.ToPattern(topPlay)
 				if err != nil {
-					//TODO
-					// notify IllegalPlay
-					goto Rollback
+					goto IllegalPlay
 				}
 
 				if cardPattern.GetName() != r.table.TopPlay.GetName() {
-					goto Rollback
+					goto IllegalPlay
 				}
 
 				if !cardPattern.GreaterThan(r.table.TopPlay) {
-					goto Rollback
+					goto IllegalPlay
 				}
 
 				r.table.TopPlay = cardPattern
 				r.table.TopPlayer = p
-
 			Commit:
-				{
-					p.Commit()
-					if len(p.HandCards()) == 0 {
-						//TODO
-						// notify Win
-						return
-					}
-					break
+				fmt.Fprintf(p.Writer, message.PlayerPlay, p.Name, cardPattern.GetName(), message.CardsToString(topPlay))
+				p.Commit()
+				if len(p.HandCards()) == 0 {
+					fmt.Fprintf(p.Writer, message.GameOver, p.Name)
+					return
 				}
-			Rollback:
-				{
-					p.Rollback()
-				}
-			}
+				break
+			IllegalPlay:
+				fmt.Fprint(p.Writer, message.IllegalPlay)
 
+			Rollback:
+				p.Rollback()
+			}
 		}
 	}
 }

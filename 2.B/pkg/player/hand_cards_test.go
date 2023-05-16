@@ -71,3 +71,40 @@ func TestHandCards_Trans_Commit(t *testing.T) {
 		t.Error("AddCard() failed")
 	}
 }
+
+func TestHandCards_Sort(t *testing.T) {
+
+	tests := []struct {
+		name      string
+		handCards []card.Card
+		want      []card.Card
+	}{
+		{
+			name: "sort 3,6,4,5 to 3,4,5,6",
+			handCards: []card.Card{
+				{Rank: card.Three, Suit: card.Spades},
+				{Rank: card.Six, Suit: card.Spades},
+				{Rank: card.Four, Suit: card.Spades},
+				{Rank: card.Five, Suit: card.Spades},
+			},
+			want: []card.Card{
+				{Rank: card.Three, Suit: card.Spades},
+				{Rank: card.Four, Suit: card.Spades},
+				{Rank: card.Five, Suit: card.Spades},
+				{Rank: card.Six, Suit: card.Spades},
+			},
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			h := NewHandCards()
+			h.SetCards(tt.handCards)
+			h.Sort()
+			for i := 0; i < len(h.GetCards()); i++ {
+				if h.GetCards()[i] != tt.want[i] {
+					t.Errorf("Sort() = %v, want %v", h.GetCards(), tt.want)
+				}
+			}
+		})
+	}
+}
