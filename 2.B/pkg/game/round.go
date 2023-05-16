@@ -1,7 +1,6 @@
 package big2
 
 import (
-	"big2/pkg/card"
 	"big2/pkg/card/patterns"
 	"big2/pkg/player"
 )
@@ -109,8 +108,4 @@ func (r *playRound) Run() {
 
 		}
 	}
-}
-
-func IslegitimatePlay(play []card.Card) bool {
-	return true
 }
