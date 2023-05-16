@@ -1,11 +1,14 @@
-package big2
+package player
 
-import "testing"
+import (
+	"big2/pkg/card"
+	"testing"
+)
 
 func TestHandCards_AddCard(t *testing.T) {
 	handCards := NewHandCards()
-	c3 := Card{Suit: Clubs, Rank: Three}
-	c4 := Card{Suit: Clubs, Rank: Four}
+	c3 := card.Card{Suit: card.Clubs, Rank: card.Three}
+	c4 := card.Card{Suit: card.Clubs, Rank: card.Four}
 	handCards.AddCard(c3)
 	handCards.AddCard(c4)
 
@@ -20,14 +23,14 @@ func TestHandCards_AddCard(t *testing.T) {
 
 func TestHandCards_Trans_Rollback(t *testing.T) {
 	handCards := NewHandCards()
-	c3 := Card{Suit: Clubs, Rank: Three}
-	c4 := Card{Suit: Clubs, Rank: Four}
+	c3 := card.Card{Suit: card.Clubs, Rank: card.Three}
+	c4 := card.Card{Suit: card.Clubs, Rank: card.Four}
 	handCards.AddCard(c3)
 	handCards.AddCard(c4)
 
 	handCards.Begin()
 
-	c5 := Card{Suit: Clubs, Rank: Five}
+	c5 := card.Card{Suit: card.Clubs, Rank: card.Five}
 	handCards.AddCard(c5)
 
 	handCards.Rollback()
@@ -45,14 +48,14 @@ func TestHandCards_Trans_Rollback(t *testing.T) {
 
 func TestHandCards_Trans_Commit(t *testing.T) {
 	handCards := NewHandCards()
-	c3 := Card{Suit: Clubs, Rank: Three}
-	c4 := Card{Suit: Clubs, Rank: Four}
+	c3 := card.Card{Suit: card.Clubs, Rank: card.Three}
+	c4 := card.Card{Suit: card.Clubs, Rank: card.Four}
 	handCards.AddCard(c3)
 	handCards.AddCard(c4)
 
 	handCards.Begin()
 
-	c5 := Card{Suit: Clubs, Rank: Five}
+	c5 := card.Card{Suit: card.Clubs, Rank: card.Five}
 	handCards.AddCard(c5)
 
 	handCards.Commit()
@@ -61,7 +64,7 @@ func TestHandCards_Trans_Commit(t *testing.T) {
 		t.Error("Commit() failed")
 	}
 
-	c6 := Card{Suit: Clubs, Rank: Six}
+	c6 := card.Card{Suit: card.Clubs, Rank: card.Six}
 	handCards.AddCard(c6)
 
 	if handCards.GetCards()[3] != c6 {

@@ -1,4 +1,4 @@
-package big2
+package player
 
 import (
 	"bytes"

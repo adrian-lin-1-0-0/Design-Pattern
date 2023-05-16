@@ -1,14 +1,14 @@
 package main
 
 import (
-	"big2"
+	"big2/pkg/player"
 	"fmt"
 )
 
 func main() {
 
-	player := big2.NewPlayer(&big2.PlayerOptions{
-		Core: big2.NewHumanPlayer(nil),
+	player := player.NewPlayer(&player.PlayerOptions{
+		Core: player.NewHumanPlayer(nil),
 	})
 
 	player.NamePlayer()

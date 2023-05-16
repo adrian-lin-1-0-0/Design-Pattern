@@ -1,27 +1,30 @@
 package big2
 
 import (
+	"big2/pkg/card"
 	"math/rand"
 	"time"
 )
 
 type Deck struct {
-	cards []Card
+	cards []card.Card
 }
 
 type DeckOptions struct {
 	Shuffle bool
-	Cards   []Card
+	Cards   []card.Card
 }
 
 func NewDeck(opts *DeckOptions) *Deck {
 
-	var cards []Card
+	var cards []card.Card
 
 	if opts == nil {
-		cards = make([]Card, 52)
+		cards = make([]card.Card, 52)
 		for i := 0; i < 52; i++ {
-			cards[i] = Card{Suit(i / 13), Rank(i % 13)}
+			cards[i] = card.Card{
+				Suit: card.Suit(i / 13),
+				Rank: card.Rank(i % 13)}
 		}
 		return (&Deck{cards: cards}).Shuffle()
 
@@ -43,7 +46,7 @@ func (d *Deck) Shuffle() *Deck {
 	return d
 }
 
-func (d *Deck) Deal() Card {
+func (d *Deck) Deal() card.Card {
 	card := d.cards[0]
 	d.cards = d.cards[1:]
 	return card

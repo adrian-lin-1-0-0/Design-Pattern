@@ -1,5 +1,7 @@
 package big2
 
+import "big2/pkg/player"
+
 type BigTwo struct {
 	rounds []Round
 }
@@ -9,10 +11,10 @@ type BigTwoOptions struct {
 }
 
 func NewBigTwo(opts *BigTwoOptions) *BigTwo {
-	players := make([]*Player, opts.PlayerCount)
+	players := make([]*player.Player, opts.PlayerCount)
 	for i := 0; i < opts.PlayerCount; i++ {
-		players[i] = NewPlayer(&PlayerOptions{
-			Core: NewHumanPlayer(nil),
+		players[i] = player.NewPlayer(&player.PlayerOptions{
+			Core: player.NewHumanPlayer(nil),
 		})
 	}
 

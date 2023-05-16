@@ -1,30 +1,32 @@
-package big2
+package player
+
+import "big2/pkg/card"
 
 type HandCards struct {
-	data   []Card
-	backup []Card
-	set    func([]Card)
-	get    func() []Card
+	data   []card.Card
+	backup []card.Card
+	set    func([]card.Card)
+	get    func() []card.Card
 }
 
 func NewHandCards() *HandCards {
 	h := &HandCards{
-		data:   []Card{},
-		backup: []Card{},
+		data:   []card.Card{},
+		backup: []card.Card{},
 	}
 	h.useData()
 	return h
 }
 
-func (h *HandCards) SetCards(cards []Card) {
+func (h *HandCards) SetCards(cards []card.Card) {
 	h.set(cards)
 }
 
-func (h *HandCards) GetCards() []Card {
+func (h *HandCards) GetCards() []card.Card {
 	return h.get()
 }
 
-func (h *HandCards) AddCard(card Card) {
+func (h *HandCards) AddCard(card card.Card) {
 	h.set(append(h.get(), card))
 }
 
@@ -44,12 +46,12 @@ func (h *HandCards) Rollback() {
 	h.useData()
 }
 
-func (h *HandCards) setData(data []Card) {
-	h.data = append([]Card{}, data...)
+func (h *HandCards) setData(data []card.Card) {
+	h.data = append([]card.Card{}, data...)
 }
 
-func (h *HandCards) setBackup(data []Card) {
-	h.backup = append([]Card{}, data...)
+func (h *HandCards) setBackup(data []card.Card) {
+	h.backup = append([]card.Card{}, data...)
 }
 
 func (h *HandCards) useBackup() {
@@ -62,14 +64,14 @@ func (h *HandCards) useData() {
 	h.get = h.getData
 }
 
-func (h *HandCards) getData() []Card {
+func (h *HandCards) getData() []card.Card {
 	return h.data
 }
 
-func (h *HandCards) getBackup() []Card {
+func (h *HandCards) getBackup() []card.Card {
 	return h.backup
 }
 
 func (h *HandCards) clearBackup() {
-	h.setBackup([]Card{})
+	h.setBackup([]card.Card{})
 }

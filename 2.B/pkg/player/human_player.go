@@ -1,11 +1,11 @@
-package big2
+package player
 
 import (
 	"fmt"
 	"io"
 	"os"
 
-	"big2/notify/message"
+	"big2/pkg/notify/message"
 )
 
 type HumanPlayer struct {

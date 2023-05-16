@@ -1,4 +1,6 @@
-package big2
+package player
+
+import "big2/pkg/card"
 
 type PlayerCore interface {
 	NamePlayer(*Player)
@@ -15,13 +17,13 @@ type PlayerOptions struct {
 	Core PlayerCore
 }
 
-func (p *Player) Play() []Card {
+func (p *Player) Play() []card.Card {
 	play := p.core.Play(p)
 	if len(play) == 1 && play[0] == -1 {
 		return nil
 	}
 
-	playCards := []Card{}
+	playCards := []card.Card{}
 	handCards := p.handCards.GetCards()
 	for _, handIdx := range play {
 		playCards = append(playCards, handCards[handIdx])
@@ -41,7 +43,7 @@ func (p *Player) NamePlayer() {
 	p.core.NamePlayer(p)
 }
 
-func (p *Player) DealtHandCards(c Card) {
+func (p *Player) DealtHandCards(c card.Card) {
 	p.handCards.AddCard(c)
 }
 
@@ -59,4 +61,8 @@ func (p *Player) Rollback() {
 
 func NewPlayer(opts *PlayerOptions) *Player {
 	return &Player{core: opts.Core}
+}
+
+func (p *Player) HandCards() []card.Card {
+	return p.handCards.GetCards()
 }
