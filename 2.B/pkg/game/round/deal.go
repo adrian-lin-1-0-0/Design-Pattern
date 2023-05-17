@@ -8,4 +8,8 @@ func Deal(b *component.BigTwo) {
 			player.DealtHandCards(b.Deck.Deal())
 		}
 	}
+
+	for _, player := range b.Players {
+		player.SortHandCards()
+	}
 }
