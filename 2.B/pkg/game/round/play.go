@@ -89,7 +89,6 @@ func NewPlay(cardPatternsChain *patterns.CardPatternsChain) func(*game.BigTwo) {
 
 					b.Table.TopPlay = cardPattern
 					b.Table.TopPlayer = p
-					passCount = 0
 					if len(p.HandCards()) == 0 {
 						fmt.Fprintf(p.Writer, message.GameOver, p.Name)
 						return
@@ -98,6 +97,7 @@ func NewPlay(cardPatternsChain *patterns.CardPatternsChain) func(*game.BigTwo) {
 				}
 			}
 			b.Table.TopPlay = nil
+			passCount = 0
 
 		}
 
