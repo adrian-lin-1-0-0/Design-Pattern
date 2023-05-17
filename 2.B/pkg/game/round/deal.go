@@ -1,8 +1,8 @@
 package round
 
-import "big2/pkg/game"
+import "big2/pkg/game/component"
 
-func Deal(b *game.BigTwo) {
+func Deal(b *component.BigTwo) {
 	for b.Deck.Len() > 0 {
 		for _, player := range b.Players {
 			player.DealtHandCards(b.Deck.Deal())

@@ -2,15 +2,15 @@ package round
 
 import (
 	"big2/pkg/card/patterns"
-	"big2/pkg/game"
+	"big2/pkg/game/component"
 	"big2/pkg/notify/message"
 	"fmt"
 )
 
 var DefaultPlay = NewPlay(patterns.CardPatternsFactory())
 
-func NewPlay(cardPatternsChain *patterns.CardPatternsChain) func(*game.BigTwo) {
-	return func(b *game.BigTwo) {
+func NewPlay(cardPatternsChain *patterns.CardPatternsChain) func(*component.BigTwo) {
+	return func(b *component.BigTwo) {
 
 		playerCircular := NewPlayerCircular(b.Players)
 

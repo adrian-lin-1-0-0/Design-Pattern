@@ -1,41 +1,13 @@
 package game
 
 import (
-	"big2/pkg/player"
+	"big2/pkg/game/component"
+	"big2/pkg/game/round"
 )
 
-type BigTwo struct {
-	Rounds  []Round
-	Players []*player.Player
-	Table   *Table
-	Deck    *Deck
-}
-
-type BigTwoOptions struct {
-	PlayerCount int
-}
-
-func NewBigTwo(opts *BigTwoOptions) *BigTwo {
-
-	players := make([]*player.Player, opts.PlayerCount)
-	for i := 0; i < opts.PlayerCount; i++ {
-		players[i] = player.NewDefaultPlayer()
-	}
-
-	return (&BigTwo{
-		Players: players,
-		Deck:    NewDeck(nil),
-		Table:   NewTable(),
-	})
-}
-
-func (b *BigTwo) AddRound(r Round) *BigTwo {
-	b.Rounds = append(b.Rounds, r)
-	return b
-}
-
-func (b *BigTwo) Run() {
-	for _, r := range b.Rounds {
-		r(b)
-	}
+func NewDefaultBigTwo() *component.BigTwo {
+	return component.NewBigTwo(&component.BigTwoOptions{PlayerCount: 4}).
+		AddRound(round.Deal).
+		AddRound(round.NamePlayer).
+		AddRound(round.DefaultPlay)
 }

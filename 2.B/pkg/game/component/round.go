@@ -1,3 +1,3 @@
-package game
+package component
 
 type Round func(*BigTwo)
