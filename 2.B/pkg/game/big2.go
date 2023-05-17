@@ -1,12 +1,14 @@
 package game
 
 import (
-	"big2/pkg/card/patterns"
 	"big2/pkg/player"
 )
 
 type BigTwo struct {
-	rounds []Round
+	Rounds  []Round
+	Players []*player.Player
+	Table   *Table
+	Deck    *Deck
 }
 
 type BigTwoOptions struct {
@@ -14,33 +16,26 @@ type BigTwoOptions struct {
 }
 
 func NewBigTwo(opts *BigTwoOptions) *BigTwo {
+
 	players := make([]*player.Player, opts.PlayerCount)
 	for i := 0; i < opts.PlayerCount; i++ {
 		players[i] = player.NewDefaultPlayer()
 	}
 
-	firstRound := NewFirstRound(&FirstRoundOptions{
+	return (&BigTwo{
 		Players: players,
 		Deck:    NewDeck(nil),
+		Table:   NewTable(),
 	})
-
-	playround := NewPlayRound(&PlayRoundOptions{
-		Players:           players,
-		Table:             NewTable(),
-		CardPatternsChain: patterns.CardPatternsFactory(),
-	})
-
-	return &BigTwo{
-		rounds: []Round{firstRound, playround},
-	}
 }
 
-func (b *BigTwo) AddRound(r Round) {
-	b.rounds = append(b.rounds, r)
+func (b *BigTwo) AddRound(r Round) *BigTwo {
+	b.Rounds = append(b.Rounds, r)
+	return b
 }
 
 func (b *BigTwo) Run() {
-	for _, r := range b.rounds {
-		r.Run()
+	for _, r := range b.Rounds {
+		r(b)
 	}
 }
