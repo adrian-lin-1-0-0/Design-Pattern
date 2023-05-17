@@ -25,7 +25,7 @@ func NewHumanPlayer() *HumanPlayer {
 }
 
 func strToIntArr(str string) []int {
-	idxStrList := strings.Split(str, "")
+	idxStrList := strings.Split(str, " ")
 	intArr := []int{}
 	for _, idxStr := range idxStrList {
 		idx, err := strconv.ParseInt(idxStr, 10, 8)

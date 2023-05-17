@@ -29,11 +29,10 @@ func NewPlay(cardPatternsChain *patterns.CardPatternsChain) func(*component.BigT
 
 		for {
 			p := playerCircular.GetPlayer()
-			p.Begin()
 			fmt.Fprintf(p.Writer, message.YourTurn, p.Name)
 			for {
+				p.Begin()
 				topPlay := p.Play()
-
 				if topPlay == nil {
 					fmt.Fprintf(p.Writer, message.CantPassInNewRound)
 					p.Rollback()
@@ -98,6 +97,7 @@ func NewPlay(cardPatternsChain *patterns.CardPatternsChain) func(*component.BigT
 			}
 			b.Table.TopPlay = nil
 			passCount = 0
+			playerCircular = playerCircular.Next()
 
 		}
 
