@@ -13,14 +13,14 @@ func NewPlay(cardPatternsChain *patterns.CardPatternsChain) func(*component.BigT
 	return func(b *component.BigTwo) {
 
 		playerCircular := NewPlayerCircular(b.Players)
-
-		for {
+		playerCount := len(b.Players)
+		for playerCount > 0 {
 			if p := playerCircular.GetPlayer(); hasClub3(p.HandCards()) {
 				b.Table.TopPlayer = p
 				break
 			}
-			playerCircular.Next()
-			//TODO: handle no club3
+			playerCircular = playerCircular.Next()
+			playerCount--
 		}
 
 		passCount := 0
@@ -60,7 +60,7 @@ func NewPlay(cardPatternsChain *patterns.CardPatternsChain) func(*component.BigT
 			}
 
 			for passLimit > passCount {
-				playerCircular.Next()
+				playerCircular = playerCircular.Next()
 				p := playerCircular.GetPlayer()
 				fmt.Fprintf(p.Writer, message.YourTurn, p.Name)
 				p.Begin()
