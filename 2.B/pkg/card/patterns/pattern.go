@@ -6,6 +6,8 @@ import (
 
 func CardPatternsFactory() *CardPatternsChain {
 	return NewCardPatterns(NewSinglePattern()).
+		Add(NewPairPattern()).
+		Add(NewFullHousePattern()).
 		Add(NewStraightPattern())
 
 }

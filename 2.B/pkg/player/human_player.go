@@ -1,7 +1,6 @@
 package player
 
 import (
-	"fmt"
 	"strconv"
 	"strings"
 )
@@ -11,13 +10,11 @@ type HumanPlayer struct {
 
 func (hp *HumanPlayer) NamePlayer(p *Player) {
 	// fmt.Fprint(hp.writer, "Enter your name:")
-	fmt.Fscanf(p.Reader, "%s", &p.Name)
+	p.Name = readLine(p.Reader)
 }
 
 func (hp *HumanPlayer) Play(p *Player) []int {
-	var idxLine string
-	fmt.Fscanf(p.Reader, "%s", &idxLine)
-	return strToIntArr(idxLine)
+	return strToIntArr(readLine(p.Reader))
 }
 
 func NewHumanPlayer() *HumanPlayer {

@@ -8,4 +8,5 @@ const (
 	CantPassInNewRound = "你不能在新的回合中喊 PASS\n"
 	PlayerPass         = "玩家 %s PASS.\n"
 	PlayerPlay         = "玩家 %s 打出了 %s %s\n"
+	NewRound           = "新的回合開始了。\n"
 )

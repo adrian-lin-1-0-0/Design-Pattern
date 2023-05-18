@@ -1,6 +1,11 @@
 package player
 
-import "big2/pkg/card"
+import (
+	"big2/pkg/card"
+	"bufio"
+	"io"
+	"strings"
+)
 
 func removeCardsByIdx(cards []card.Card, idx []int) []card.Card {
 	emptyCard := card.Card{}
@@ -27,4 +32,11 @@ func getCardsByIdx(cards []card.Card, idx []int) []card.Card {
 	}
 
 	return cardsByIdx
+}
+
+// read line including space
+func readLine(ioReader io.Reader) string {
+	reader := bufio.NewReader(ioReader)
+	line, _ := reader.ReadString('\n')
+	return strings.TrimRight(line, "\n")
 }

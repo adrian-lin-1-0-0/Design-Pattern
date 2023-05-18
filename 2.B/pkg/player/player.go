@@ -3,6 +3,7 @@ package player
 import (
 	"big2/pkg/card"
 	"big2/pkg/notify/message"
+	"errors"
 	"fmt"
 	"io"
 	"os"
@@ -45,12 +46,15 @@ func NewDefaultPlayer() *Player {
 }
 
 func (p *Player) Play() []card.Card {
-	fmt.Fprintf(p.Writer, message.HandCards, message.CardsToString(p.handCards.GetCards()))
+	fmt.Fprintf(p.Writer, message.HandCards, message.CardsWithIdxToString(p.handCards.GetCards()))
 	play := p.core.Play(p)
+	if len(play) == 0 {
+		panic(errors.New("play is empty"))
+	}
+
 	if len(play) == 1 && play[0] == -1 {
 		return nil
 	}
-
 	playCards := getCardsByIdx(p.handCards.GetCards(), play)
 	p.handCards.SetCards(removeCardsByIdx(p.handCards.GetCards(), play))
 
