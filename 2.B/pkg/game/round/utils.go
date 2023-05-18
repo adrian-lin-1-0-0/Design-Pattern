@@ -3,6 +3,7 @@ package round
 import (
 	"big2/pkg/card"
 	"big2/pkg/player"
+	"errors"
 )
 
 func hasClub3(cards []card.Card) bool {
@@ -18,32 +19,54 @@ func hasCard(cards []card.Card, card card.Card) bool {
 	return false
 }
 
-type playerCircular struct {
-	next   *playerCircular
+type PlayerCircular struct {
+	next   *PlayerCircular
 	Player *player.Player
+	length int
 }
 
-func (p *playerCircular) Next() *playerCircular {
+func (p *PlayerCircular) Len() int {
+	return p.length
+}
+
+func (p *PlayerCircular) Next() *PlayerCircular {
 	p = p.next
 	return p
 }
 
-func (p *playerCircular) GetPlayer() *player.Player {
+func (p *PlayerCircular) GetPlayer() *player.Player {
 	return p.Player
 }
 
-func NewPlayerCircular(players []*player.Player) *playerCircular {
-	var head *playerCircular
-	var tail *playerCircular
+func (p *PlayerCircular) Rotate(f func(*PlayerCircular) bool) (*PlayerCircular, error) {
+	count := 0
+	limit := p.Len()
+	for limit > count {
+		if f(p) {
+			return p, nil
+		}
+		if p.next == nil {
+			return nil, errors.New("no player found")
+		}
+		p = p.next
+	}
+	return nil, errors.New("no player found")
+}
+
+func NewPlayerCircular(players []*player.Player) *PlayerCircular {
+	var length = len(players)
+	var head *PlayerCircular
+	var tail *PlayerCircular
 	for _, p := range players {
 		if head == nil {
-			head = &playerCircular{
+			head = &PlayerCircular{
 				Player: p,
+				length: length,
 			}
 			tail = head
 			continue
 		}
-		tail.next = &playerCircular{
+		tail.next = &PlayerCircular{
 			Player: p,
 		}
 		tail = tail.next

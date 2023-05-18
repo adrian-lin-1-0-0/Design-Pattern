@@ -13,81 +13,101 @@ func NewPlay(cardPatternsChain *patterns.CardPatternsChain) func(*component.BigT
 	return func(b *component.BigTwo) {
 
 		playerCircular := NewPlayerCircular(b.Players)
-		playerCount := len(b.Players)
-		for playerCount > 0 {
-			if p := playerCircular.GetPlayer(); hasClub3(p.HandCards()) {
-				b.Table.TopPlayer = p
-				break
-			}
-			playerCircular = playerCircular.Next()
-			playerCount--
+
+		// Find the player with club 3
+		playerCircular, err := playerCircular.Rotate(func(p *PlayerCircular) bool {
+			return hasClub3(p.GetPlayer().HandCards())
+		})
+
+		if err != nil {
+			panic(err)
 		}
 
 		passCount := 0
 		passLimit := len(b.Players) - 1
+		var cardPattern patterns.CardPattern
 		isFirstRound := true
 
 		for {
+
 			p := playerCircular.GetPlayer()
 			fmt.Fprintf(p.Writer, message.YourTurn, p.Name)
+			//topPlayer's turn
 			for {
+				//start player's transaction
 				p.Begin()
 				topPlay := p.Play()
 				if topPlay == nil {
-					fmt.Fprintf(p.Writer, message.CantPassInNewRound)
-					p.Rollback()
-					continue
+					goto TopPlayerPass
 				}
 				if isFirstRound {
 					if !hasClub3(topPlay) {
-						fmt.Fprintf(p.Writer, message.IllegalPlay)
-						p.Rollback()
-						continue
+						goto TopPlayIllegalPlay
 					}
 					isFirstRound = false
 				}
-				cardPattern, err := cardPatternsChain.ToPattern(topPlay)
+				cardPattern, err = cardPatternsChain.ToPattern(topPlay)
 				if err != nil {
-					fmt.Fprintf(p.Writer, message.IllegalPlay)
-					p.Rollback()
-					continue
+					goto TopPlayIllegalPlay
 				}
 
+				goto TopPlayLegalPlay
+
+			TopPlayerPass:
+				fmt.Fprintf(p.Writer, message.CantPassInNewRound)
+				p.Rollback()
+				continue
+			TopPlayIllegalPlay:
+				fmt.Fprintf(p.Writer, message.IllegalPlay)
+				p.Rollback()
+				continue
+			TopPlayLegalPlay:
 				b.Table.TopPlay = cardPattern
 				p.Commit()
+				if len(p.HandCards()) == 0 {
+					fmt.Fprintf(p.Writer, message.GameOver, p.Name)
+					return
+				}
 				break
 			}
 
+			//other players' turn
 			for passLimit > passCount {
 				playerCircular = playerCircular.Next()
 				p := playerCircular.GetPlayer()
 				fmt.Fprintf(p.Writer, message.YourTurn, p.Name)
-				p.Begin()
-				for {
-					topPlay := p.Play()
 
-					if topPlay == nil {
-						fmt.Fprintf(p.Writer, message.PlayerPass, p.Name)
-						passCount++
-						p.Commit()
-						break
+				for {
+					p.Begin()
+					playerPlay := p.Play()
+
+					if playerPlay == nil {
+						goto Pass
 					}
 
-					cardPattern, err := cardPatternsChain.ToPattern(topPlay)
+					cardPattern, err = cardPatternsChain.ToPattern(playerPlay)
 					if err != nil {
-						fmt.Fprintf(p.Writer, message.IllegalPlay)
-						p.Rollback()
-						continue
+						goto IllegalPlay
 					}
 
 					if !cardPattern.GreaterThan(b.Table.TopPlay) {
-						fmt.Fprintf(p.Writer, message.IllegalPlay)
-						p.Rollback()
-						continue
+						goto IllegalPlay
 					}
+					goto LegalPlay
 
+				Pass:
+					fmt.Fprintf(p.Writer, message.PlayerPass, p.Name)
+					passCount++
+					p.Commit()
+					break
+				IllegalPlay:
+					fmt.Fprintf(p.Writer, message.IllegalPlay)
+					p.Rollback()
+					continue
+				LegalPlay:
 					b.Table.TopPlay = cardPattern
 					b.Table.TopPlayer = p
+					p.Commit()
 					if len(p.HandCards()) == 0 {
 						fmt.Fprintf(p.Writer, message.GameOver, p.Name)
 						return
@@ -95,11 +115,11 @@ func NewPlay(cardPatternsChain *patterns.CardPatternsChain) func(*component.BigT
 					break
 				}
 			}
+
+			//Clear the table
 			b.Table.TopPlay = nil
 			passCount = 0
 			playerCircular = playerCircular.Next()
-
 		}
-
 	}
 }
