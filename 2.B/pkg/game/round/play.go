@@ -1,6 +1,7 @@
 package round
 
 import (
+	"big2/pkg/card"
 	"big2/pkg/card/patterns"
 	"big2/pkg/game/component"
 	"big2/pkg/notify/message"
@@ -46,6 +47,7 @@ func NewPlay(cardPatternsChain *patterns.CardPatternsChain) func(*component.BigT
 					}
 					isFirstRound = false
 				}
+				card.Cards(playerPlay).Sort()
 				cardPattern, err = cardPatternsChain.ToPattern(playerPlay)
 				if err != nil {
 					goto TopPlayIllegalPlay
@@ -85,7 +87,7 @@ func NewPlay(cardPatternsChain *patterns.CardPatternsChain) func(*component.BigT
 					if playerPlay == nil {
 						goto Pass
 					}
-
+					card.Cards(playerPlay).Sort()
 					cardPattern, err = cardPatternsChain.ToPattern(playerPlay)
 					if err != nil {
 						goto IllegalPlay

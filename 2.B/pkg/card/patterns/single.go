@@ -26,7 +26,7 @@ func (s *SinglePattern) Match(cards []card.Card) bool {
 }
 
 func (s *SinglePattern) GetName() string {
-	return "Single"
+	return "單張"
 }
 
 func (s *SinglePattern) New(cards []card.Card) CardPattern {

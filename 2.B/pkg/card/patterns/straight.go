@@ -52,7 +52,7 @@ func (s *StraightPattern) Match(cards []card.Card) bool {
 }
 
 func (s *StraightPattern) GetName() string {
-	return "Straight"
+	return "順子"
 }
 
 func (s *StraightPattern) New(cards []card.Card) CardPattern {

@@ -2,6 +2,7 @@ package card
 
 import (
 	"fmt"
+	"sort"
 )
 
 type Card struct {
@@ -89,4 +90,12 @@ func (c *Card) GreaterThanOrEqualTo(other *Card) bool {
 
 func (c *Card) String() string {
 	return fmt.Sprintf("%s[%s]", suitStrings[c.Suit], rankStrings[c.Rank])
+}
+
+type Cards []Card
+
+func (cards Cards) Sort() {
+	sort.Slice(cards, func(i, j int) bool {
+		return cards[i].LessThan(&cards[j])
+	})
 }

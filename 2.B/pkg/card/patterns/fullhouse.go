@@ -66,7 +66,7 @@ func (p *fullHousePattern) Match(cards []card.Card) bool {
 }
 
 func (p *fullHousePattern) GetName() string {
-	return "Full House"
+	return "葫蘆"
 }
 
 func (p *fullHousePattern) New(cards []card.Card) CardPattern {

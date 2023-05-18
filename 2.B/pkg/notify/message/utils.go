@@ -13,10 +13,14 @@ func CardsWithIdxToString(cards []card.Card) string {
 	idxLine := ""
 	cardLine := ""
 	for idx, c := range cards {
-		cardStr := c.String() + " "
-		idxLine += padSpace(fmt.Sprintf("%d", idx), len(cardStr))
-		cardLine += cardStr
+		if idx != len(cards)-1 {
+			cardStr := c.String() + " "
+			idxLine += padSpace(fmt.Sprintf("%d", idx), len(cardStr))
+			cardLine += cardStr
+		}
 	}
+	idxLine += fmt.Sprintf("%d", len(cards)-1)
+	cardLine += cards[len(cards)-1].String()
 	return idxLine + "\n" + cardLine
 }
 
@@ -28,9 +32,9 @@ func padSpace(str string, length int) string {
 }
 
 func CardsToString(cards []card.Card) string {
-	cardLine := ""
-	for _, c := range cards {
-		cardLine += c.String() + " "
+	cardStings := make([]string, len(cards))
+	for idx, c := range cards {
+		cardStings[idx] = c.String()
 	}
-	return cardLine
+	return strings.Join(cardStings, " ")
 }

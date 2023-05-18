@@ -11,6 +11,9 @@ func NewPairPattern() *PairPattern {
 }
 
 func (p *PairPattern) GreaterThan(pattern CardPattern) bool {
+	if len(pattern.GetCards()) != 2 {
+		return false
+	}
 	return p.cards[1].GreaterThan(&pattern.GetCards()[1])
 }
 
@@ -26,7 +29,7 @@ func (p *PairPattern) Match(cards []card.Card) bool {
 }
 
 func (p *PairPattern) GetName() string {
-	return "Pair"
+	return "對子"
 }
 
 func (p *PairPattern) New(cards []card.Card) CardPattern {
