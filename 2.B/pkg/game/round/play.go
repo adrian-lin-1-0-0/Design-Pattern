@@ -115,12 +115,12 @@ func NewPlay(cardPatternsChain *patterns.CardPatternsChain) func(*component.BigT
 						fmt.Fprintf(p.Writer, message.GameOver, p.Name)
 						return
 					}
-
 					break
 				}
 			}
 
 			//Clear the table
+			passCount = 0
 			b.Table.TopPlay = nil
 			playerCircular = playerCircular.Next()
 		}
