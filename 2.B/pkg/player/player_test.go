@@ -24,7 +24,4 @@ func TestPlayer_NamePlayer(t *testing.T) {
 	if player.Name != inputName {
 		t.Errorf("player.Name = %s; want %s", player.Name, inputName)
 	}
-
-	player.Play()
-
 }

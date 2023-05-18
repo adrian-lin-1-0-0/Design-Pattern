@@ -55,7 +55,6 @@ func runGameWithFile(fileName string) string {
 	}
 
 	buffer := bytes.NewBufferString(inputs)
-
 	input := bufio.NewReader(buffer)
 	writer := &strings.Builder{}
 

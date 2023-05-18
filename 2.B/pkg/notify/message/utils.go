@@ -10,6 +10,9 @@ import (
 //C[3] C[4] S[7] S[8] H[9] D[10] S[J] D[Q] H[Q] D[A] S[A] D[2] H[2]
 
 func CardsWithIdxToString(cards []card.Card) string {
+	if len(cards) == 0 {
+		return ""
+	}
 	idxLine := ""
 	cardLine := ""
 	for idx, c := range cards {
