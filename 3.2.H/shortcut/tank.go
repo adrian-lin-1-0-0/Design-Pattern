@@ -12,26 +12,26 @@ func (c *Tank) MoveBackward() {
 	fmt.Println("The tank has moved backward.")
 }
 
-type TankMoveBackward struct {
+type MoveTankBackward struct {
 	Tank *Tank
 }
 
-func (c *TankMoveBackward) Do() {
+func (c MoveTankBackward) Do() {
 	c.Tank.MoveBackward()
 }
 
-func (c *TankMoveBackward) Undo() {
+func (c MoveTankBackward) Undo() {
 	c.Tank.MoveForward()
 }
 
-type TankMoveForward struct {
+type MoveTankForward struct {
 	Tank *Tank
 }
 
-func (c *TankMoveForward) Do() {
+func (c MoveTankForward) Do() {
 	c.Tank.MoveForward()
 }
 
-func (c *TankMoveForward) Undo() {
+func (c MoveTankForward) Undo() {
 	c.Tank.MoveBackward()
 }

@@ -1,5 +1,7 @@
 package shortcut
 
+import "fmt"
+
 type MainController struct {
 	keyBindings map[rune]Command
 	doHistory   []Command
@@ -12,6 +14,10 @@ type Command interface {
 }
 
 func (c *MainController) KeyBind(key rune, command Command) {
+	if key < 32 || key > 126 {
+		fmt.Println("Key out of range")
+		return
+	}
 	c.keyBindings[key] = command
 }
 

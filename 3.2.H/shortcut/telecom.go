@@ -17,11 +17,11 @@ type ConnectTelecom struct {
 	Telecom *Telecom
 }
 
-func (c *ConnectTelecom) Do() {
+func (c ConnectTelecom) Do() {
 	c.Telecom.Connect()
 }
 
-func (c *ConnectTelecom) Undo() {
+func (c ConnectTelecom) Undo() {
 	c.Telecom.Disconnect()
 }
 
@@ -29,10 +29,10 @@ type DisconnectTelecom struct {
 	Telecom *Telecom
 }
 
-func (c *DisconnectTelecom) Do() {
+func (c DisconnectTelecom) Do() {
 	c.Telecom.Disconnect()
 }
 
-func (c *DisconnectTelecom) Undo() {
+func (c DisconnectTelecom) Undo() {
 	c.Telecom.Connect()
 }
