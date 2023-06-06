@@ -1,9 +1,9 @@
 package prescription
 
 type Case struct {
-	Symptoms     []Symptom
-	Time         string
-	Prescription Prescription
+	Symptoms     []Symptom    `json:"symptoms"`
+	Time         string       `json:"time"`
+	Prescription Prescription `json:"prescription"`
 }
 
 func NewCase(symptoms []Symptom, time string, prescription Prescription) Case {

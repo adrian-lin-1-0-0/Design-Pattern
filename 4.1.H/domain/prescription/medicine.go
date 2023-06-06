@@ -1,7 +1,7 @@
 package prescription
 
 type Medicine struct {
-	Name string
+	Name string `json:"name"`
 }
 
 func NewMedicine(name string) Medicine {

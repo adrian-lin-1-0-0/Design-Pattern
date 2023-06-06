@@ -1,10 +1,10 @@
 package prescription
 
 type Prescription struct {
-	Name              string
-	PotentialDiseases string
-	Medicines         []Medicine
-	Usage             string
+	Name              string     `json:"name"`
+	PotentialDiseases string     `json:"potentialDiseases"`
+	Medicines         []Medicine `json:"medicines"`
+	Usage             string     `json:"usage"`
 }
 
 func NewPrescription(name string, potentialDiseases string, medicines []Medicine, usage string) Prescription {
