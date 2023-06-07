@@ -5,7 +5,9 @@ import (
 	"4.1.H/domain/prescription"
 )
 
-type AttractiveDiagnosis struct{}
+type AttractiveDiagnosis struct {
+	DiagnosisHandler
+}
 
 func (ad *AttractiveDiagnosis) Match(p patient.Patient, symptoms []prescription.Symptom) bool {
 	hasSnore := false

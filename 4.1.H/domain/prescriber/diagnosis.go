@@ -6,7 +6,7 @@ import (
 )
 
 type DiagnosisHandler struct {
-	Next Diagnosis
+	next Diagnosis
 }
 
 type Diagnosis interface {
@@ -17,19 +17,30 @@ type Diagnosis interface {
 }
 
 func (dh *DiagnosisHandler) Handle(p patient.Patient, symptoms []prescription.Symptom) (prescription.Prescription, error) {
-	if dh.Next == nil {
+	if dh.next == nil {
 		return prescription.Prescription{}, nil
 	}
-	if dh.Next.Match(p, symptoms) {
-		return dh.Next.Handle()
+	if dh.Next().Match(p, symptoms) {
+		return dh.Next().Handle()
 	}
-	return dh.Next.Handle()
+	return dh.Next().Handle()
 }
 
 func (dh *DiagnosisHandler) Add(diagnosis Diagnosis) {
-	if dh.Next == nil {
-		dh.Next = diagnosis
+	if dh.next == nil {
+		dh.next = diagnosis
 		return
 	}
-	dh.Next.Add(diagnosis)
+	dh.Next().Add(diagnosis)
+}
+
+func (dh *DiagnosisHandler) Next() Diagnosis {
+	return dh.next
+}
+
+func t() {
+	diagnosis := &DiagnosisHandler{}
+	diagnosis.Add(&Covid19Diagnosis{})
+	diagnosis.Add(&AttractiveDiagnosis{})
+	diagnosis.Add(&SleepApneaSyndromeDiagnosis{})
 }

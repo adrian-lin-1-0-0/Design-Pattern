@@ -17,3 +17,10 @@ func LoadFile2DB(filePath string) error {
 
 	return nil
 }
+
+func LoadFile2DBPanic(filePath string) {
+	err := LoadFile2DB(filePath)
+	if err != nil {
+		panic(err)
+	}
+}

@@ -5,7 +5,9 @@ import (
 	"4.1.H/domain/prescription"
 )
 
-type Covid19Diagnosis struct{}
+type Covid19Diagnosis struct {
+	DiagnosisHandler
+}
 
 func (cd *Covid19Diagnosis) Match(p patient.Patient, symptoms []prescription.Symptom) bool {
 	hasCough := false

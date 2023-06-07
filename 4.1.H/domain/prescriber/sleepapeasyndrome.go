@@ -5,7 +5,9 @@ import (
 	"4.1.H/domain/prescription"
 )
 
-type SleepApneaSyndromeDiagnosis struct{}
+type SleepApneaSyndromeDiagnosis struct {
+	DiagnosisHandler
+}
 
 func (sas *SleepApneaSyndromeDiagnosis) Match(p patient.Patient, symptoms []prescription.Symptom) bool {
 	hasSnore := false
