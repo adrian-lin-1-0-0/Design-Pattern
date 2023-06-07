@@ -1,3 +1,45 @@
-map json to patient , case
-patient add cases
-reduce patient to database
+package main
+
+import (
+	"fmt"
+	"time"
+)
+
+type PrescriptionDemand struct {
+	UserID int
+	Symptoms string
+}
+
+func diagnosePatient(patient PrescriptionDemand) {
+	fmt.Printf("Diagnosing patient %d with symptoms: %s\n", patient.UserID, patient.Symptoms)
+	// 模拟诊断过程，这里暂停2秒钟
+	time.Sleep(2 * time.Second)
+	fmt.Printf("Patient %d diagnosed\n", patient.UserID)
+}
+
+func main() {
+	requests := make(chan PrescriptionDemand) // 创建一个用于接收诊断请求的通道
+
+	go func() {
+		for {
+			select {
+			case patient := <-requests: // 从通道接收诊断请求
+				diagnosePatient(patient)
+			}
+		}
+	}()
+
+	// 模拟多个用户同时发起诊断请求
+	for i := 1; i <= 5; i++ {
+		patient := PrescriptionDemand{
+			UserID:   i,
+			Symptoms: fmt.Sprintf("Symptoms for patient %d", i),
+		}
+		requests <- patient // 将诊断请求发送到通道
+		fmt.Printf("Patient %d added to the queue\n", i)
+	}
+
+	// 等待一段时间，以便所有请求得到处理
+	time.Sleep(5 * time.Second)
+	fmt.Println("All patients diagnosed")
+}
