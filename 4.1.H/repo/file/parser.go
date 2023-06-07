@@ -1,21 +1,20 @@
-package repo
+package file
 
 import (
 	"encoding/json"
-	"fmt"
 	"io/ioutil"
 	"os"
 
 	"4.1.H/domain/patient"
 )
 
-func Pares() {
-	jsonFile, err := os.Open("patients.json")
+func Json2Patients(filePath string) ([]patient.Patient, error) {
+	jsonFile, err := os.Open(filePath)
 	if err != nil {
-		fmt.Println(err)
+		return nil, err
 	}
 	if err != nil {
-		fmt.Println(err)
+		return nil, err
 	}
 	defer jsonFile.Close()
 	byteValue, _ := ioutil.ReadAll(jsonFile)
@@ -23,7 +22,7 @@ func Pares() {
 
 	err = json.Unmarshal(byteValue, &patients)
 	if err != nil {
-		fmt.Println(err)
+		return nil, err
 	}
-	fmt.Println(patients[0].Cases[0].Prescription.Medicines)
+	return patients, nil
 }
