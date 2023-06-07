@@ -2,7 +2,7 @@ package file
 
 import (
 	"encoding/json"
-	"io/ioutil"
+	"io"
 	"os"
 
 	"4.1.H/domain/patient"
@@ -18,7 +18,7 @@ func Json2Patients(filePath string) ([]patient.Patient, error) {
 		return nil, err
 	}
 	defer jsonFile.Close()
-	byteValue, _ := ioutil.ReadAll(jsonFile)
+	byteValue, _ := io.ReadAll(jsonFile)
 	var patients []patient.Patient
 
 	err = json.Unmarshal(byteValue, &patients)
