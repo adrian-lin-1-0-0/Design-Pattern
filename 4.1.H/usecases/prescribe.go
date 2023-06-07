@@ -1,20 +1,25 @@
 package usecases
 
 import (
-	"4.1.H/domain/prescriber"
+	"time"
+
 	"4.1.H/domain/prescription"
 	"4.1.H/repo/mem"
 )
 
-func PrescriptionDemand(id string, symptoms []string) (prescription.Prescription, error) {
+func PrescriptionDemand(id string, strSymptoms []string) (prescription.Prescription, error) {
 	person, exist := mem.DB.GetPatientById(id)
 	if !exist {
 		return prescription.Prescription{}, nil
 	}
-	p, err := prescriber.NewDefaultPrescriber().Handle(*person, str2Symptoms(symptoms))
-	if err != nil {
-		return prescription.Prescription{}, err
-	}
+	symptoms := str2Symptoms(strSymptoms)
+	p := mem.Prescriber.Handle(*person, symptoms)
+	person.AddCase(prescription.NewCase(
+		symptoms,
+		time.Now().Format("2006-01-02 15:04:05"),
+		p,
+	))
+
 	return p, nil
 }
 

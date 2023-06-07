@@ -6,41 +6,13 @@ import (
 )
 
 type DiagnosisHandler struct {
-	next Diagnosis
+	Match     func(p patient.Patient, symptoms []prescription.Symptom) bool
+	Prescribe func() prescription.Prescription
 }
 
-type Diagnosis interface {
-	Handle() (prescription.Prescription, error)
-	Match(patient patient.Patient, symptoms []prescription.Symptom) bool
-	Add(diagnosis Diagnosis)
-	Next() Diagnosis
-}
-
-func (dh *DiagnosisHandler) Handle(p patient.Patient, symptoms []prescription.Symptom) (prescription.Prescription, error) {
-	if dh.next == nil {
-		return prescription.Prescription{}, nil
+func NewDiagnosisHandler(match func(patient.Patient, []prescription.Symptom) bool, p prescription.Prescription) DiagnosisHandler {
+	return DiagnosisHandler{
+		Match:     match,
+		Prescribe: func() prescription.Prescription { return p },
 	}
-	if dh.Next().Match(p, symptoms) {
-		return dh.Next().Handle()
-	}
-	return dh.Next().Handle()
-}
-
-func (dh *DiagnosisHandler) Add(diagnosis Diagnosis) {
-	if dh.next == nil {
-		dh.next = diagnosis
-		return
-	}
-	dh.Next().Add(diagnosis)
-}
-
-func (dh *DiagnosisHandler) Next() Diagnosis {
-	return dh.next
-}
-
-func t() {
-	diagnosis := &DiagnosisHandler{}
-	diagnosis.Add(&Covid19Diagnosis{})
-	diagnosis.Add(&AttractiveDiagnosis{})
-	diagnosis.Add(&SleepApneaSyndromeDiagnosis{})
 }

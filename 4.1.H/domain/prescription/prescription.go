@@ -15,3 +15,5 @@ func NewPrescription(name string, potentialDiseases string, medicines []Medicine
 		Usage:             usage,
 	}
 }
+
+var None = NewPrescription("None", "None", []Medicine{}, "None")

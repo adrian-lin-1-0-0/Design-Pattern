@@ -1,11 +1,10 @@
 package prescription
 
-type Medicine struct {
-	Name string `json:"name"`
-}
+type Medicine string
 
-func NewMedicine(name string) Medicine {
-	return Medicine{
-		Name: name,
-	}
-}
+const (
+	QingguanNo1 Medicine = "清冠一號"
+	Jiabianjiao Medicine = "假鬢角"
+	Chouwei     Medicine = "臭味"
+	Yijuan      Medicine = "一捲膠帶"
+)

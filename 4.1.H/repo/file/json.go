@@ -31,15 +31,3 @@ func Json2Patients(filePath string) ([]patient.Patient, error) {
 func Prescription2Json(p prescription.Prescription) ([]byte, error) {
 	return json.Marshal(p)
 }
-
-func Json2File(filePath string, data []byte) error {
-	return ioutil.WriteFile(filePath, data, 0644)
-}
-
-func Prescription2File(filePath string, p prescription.Prescription) error {
-	data, err := Prescription2Json(p)
-	if err != nil {
-		return err
-	}
-	return Json2File(filePath, data)
-}
