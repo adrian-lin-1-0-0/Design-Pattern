@@ -1,7 +1,6 @@
 package exporter
 
 import (
-	"log"
 	"os"
 )
 
@@ -16,6 +15,5 @@ func NewFile(fileName string) *File {
 		panic(err)
 	}
 	f.SetOutput(file)
-	log.SetOutput(file)
 	return f
 }
