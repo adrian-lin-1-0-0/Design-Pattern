@@ -1,0 +1,18 @@
+2023-06-23 16:30:33.6234 |- INFO app.game - The game begins.
+2023-06-23 16:30:33.6234 |- TRACE app.game.ai - AI 1 starts making decisions...
+2023-06-23 16:30:33.6234 |- WARN app.game.ai - AI 1 decides to give up.
+2023-06-23 16:30:33.6234 |- ERROR app.game.ai - Something goes wrong when AI gives up.
+2023-06-23 16:30:33.6234 |- TRACE app.game.ai - AI 1 completes its decision.
+2023-06-23 16:30:33.6234 |- TRACE app.game.ai - AI 2 starts making decisions...
+2023-06-23 16:30:33.6234 |- WARN app.game.ai - AI 2 decides to give up.
+2023-06-23 16:30:33.6234 |- ERROR app.game.ai - Something goes wrong when AI gives up.
+2023-06-23 16:30:33.6234 |- TRACE app.game.ai - AI 2 completes its decision.
+2023-06-23 16:30:33.6234 |- TRACE app.game.ai - AI 3 starts making decisions...
+2023-06-23 16:30:33.6234 |- WARN app.game.ai - AI 3 decides to give up.
+2023-06-23 16:30:33.6234 |- ERROR app.game.ai - Something goes wrong when AI gives up.
+2023-06-23 16:30:33.6234 |- TRACE app.game.ai - AI 3 completes its decision.
+2023-06-23 16:30:33.6234 |- TRACE app.game.ai - AI 4 starts making decisions...
+2023-06-23 16:30:33.6234 |- WARN app.game.ai - AI 4 decides to give up.
+2023-06-23 16:30:33.6234 |- ERROR app.game.ai - Something goes wrong when AI gives up.
+2023-06-23 16:30:33.6234 |- TRACE app.game.ai - AI 4 completes its decision.
+2023-06-23 16:30:33.6234 |- DEBUG app.game - Game ends.
